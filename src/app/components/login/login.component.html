@@ -1,0 +1,39 @@
+<div class="login">
+  <div class="auth-container">
+    <!-- Section Logo à gauche -->
+    <div class="logo-section">
+      <img src="images/logo.png" alt="Logo ADIALEA">
+      <div class="company-name">ADIALEA SN</div>
+      <div class="login-footer">
+        Logiciel inventaire v1<br>
+        Materiel informatique • Consommable • MODOP
+      </div>
+    </div>
+    
+    <!-- Section Formulaire à droite -->
+    <div class="form-section">
+      <h3 class="login-title">Connexion à votre compte</h3>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Identifiant</label>
+          <input 
+            type="text" 
+            class="login-input" 
+            formControlName="username" 
+            placeholder="Identifiant">
+        </div>
+        
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input 
+            type="password" 
+            class="login-input" 
+            formControlName="password" 
+            placeholder="••••••••">
+        </div>
+        
+        <button type="submit" class="btn-login">Se Connecter</button>
+      </form>
+    </div>
+  </div>
+</div>

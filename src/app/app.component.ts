@@ -3,9 +3,12 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone: true, // Composant standalone
+  imports: [
+    RouterOutlet, // Nécessaire pour le routage
+  ],
+  template: '<router-outlet></router-outlet>',
+  styles: []
 })
 export class AppComponent {
   title = 'inventaire';
