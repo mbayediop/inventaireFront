@@ -1,0 +1,46 @@
+/* src/app/components/sidebar/sidebar.component.css */
+.sidebar {
+    width: 280px;
+    min-height: 100vh;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    position: relative;
+    left: 0;
+    top: 0;
+    padding-top: 60px; /* Espace pour le header */
+  }
+  
+  @media (max-width: 992px) {
+    .sidebar {
+      position: relative;
+      width: 100%;
+      min-height: auto;
+    }
+  }
+
+  /* Effet hover */
+.hover-effect {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hover-effect:hover {
+  color: var(--bs-primary) !important;
+  transform: translateY(-2px);
+}
+
+/* Style du lien actif */
+.active-link {
+  color: var(--bs-primary) !important;
+  font-weight: 600 !important;
+  border-bottom: 2px solid var(--bs-primary);
+}
+
+/* Style du logo actif si besoin */
+.navbar-brand.active img {
+  opacity: 0.8;
+}
+
+/* Dropdown */
+.dropdown-menu {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

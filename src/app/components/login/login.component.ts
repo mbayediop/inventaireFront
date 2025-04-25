@@ -14,8 +14,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  isLoading = false;
-  errorMessage = '';
+  //isLoading = false;
+  //errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -29,18 +29,14 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
-
-    this.isLoading = true;
-    this.authService.login(
-      this.loginForm.value.username,
-      this.loginForm.value.password
-    ).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
-      error: (err) => {
-        this.errorMessage = 'Identifiant ou mot de passe incorrect';
-        this.isLoading = false;
-      }
-    });
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe({
+        next: () => this.router.navigate(['/dashboard']), // adapte à ta future route
+        error: (err) => {
+          console.error('Erreur de connexion', err);
+          alert('Identifiants invalides');
+        }
+      });
+    }
   }
 }

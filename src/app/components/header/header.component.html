@@ -1,37 +1,62 @@
 <header class="p-3 mb-3 border-bottom">
-    <div class="container-fluid">
-      <div class="d-flex flex-wrap align-items-center justify-content-between">
-        <!-- Logo à gauche -->
-        <a class="navbar-brand me-0" href="#">
-            <img src="images/logo.png" alt="Adialea" width="auto" height="50px">
-        </a>
-        
-        <!-- Menu au centre avec espacement et effets -->
-        <ul class="nav col-12 col-md-auto justify-content-center mb-2 mb-md-0" style="gap: 1.5rem;">
-            <li><a href="#" class="nav-link px-2 link-body-emphasis fw-medium hover-effect">DASHBOARD</a></li>
-            <li><a href="#" class="nav-link px-2 link-body-emphasis fw-medium hover-effect">SITES</a></li>
-            <li><a href="#" class="nav-link px-2 link-body-emphasis fw-medium hover-effect">EQUIPEMENTS</a></li>
-            <li><a href="#" class="nav-link px-2 link-body-emphasis fw-medium hover-effect">CONSOMMABLES</a></li>
-            <li><a href="#" class="nav-link px-2 link-body-emphasis fw-medium hover-effect">MODOP</a></li>
-        </ul>
-        
-        <!-- Recherche et profil à droite -->
-        <div class="d-flex align-items-center">
-          <form class="me-3" role="search">
-            <input type="search" class="form-control" placeholder="Recherche..." aria-label="Search">
-          </form>
+  <div class="container-fluid">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+      <!-- Logo à gauche -->
+      <a class="navbar-brand me-0" routerLink="/dashboard" routerLinkActive="active">
+        <img src="images/logo.png" alt="Wild Leaf" width="auto" height="50px">
+      </a>
 
-          <div class="dropdown">
-            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="images/logout.webp" alt="mdo" width="32" height="32" class="rounded-circle">
-            </a>
-            <ul class="dropdown-menu text-small">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Se deconnecter</a></li>
-            </ul>
-          </div>
-        </div>
+      <!-- Menu central -->
+      <ul class="nav col-12 col-md-auto justify-content-center mb-2 mb-md-0" style="gap: 1.5rem">
+        <li>
+          <a routerLink="/dashboard" 
+             class="nav-link px-2 fw-medium hover-effect"
+             routerLinkActive="active-link">
+            DASHBOARD
+          </a>
+        </li>
+        <li>
+          <a routerLink="/sites" 
+             class="nav-link px-2 fw-medium hover-effect"
+             routerLinkActive="active-link">
+            SITES
+          </a>
+        </li>
+     <!--   <li>
+          <a routerLink="/equipements" 
+             class="nav-link px-2 fw-medium hover-effect"
+             routerLinkActive="active-link">
+            EQUIPEMENTS
+          </a>
+        </li>    -->
+        <li>
+          <a routerLink="/consommables" 
+             class="nav-link px-2 fw-medium hover-effect"
+             routerLinkActive="active-link">
+            CONSOMMABLES
+          </a>
+        </li>
+        <li>
+          <a routerLink="/modop" 
+             class="nav-link px-2 fw-medium hover-effect"
+             routerLinkActive="active-link">
+            MODOP
+          </a>
+        </li>
+      </ul>
+
+      <!-- Zone utilisateur (inchangée) -->
+      <div class="dropdown">
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" 
+           data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="images/logout.webp" alt="Profil" width="32" height="32" class="rounded-circle">
+        </a>
+        <ul class="dropdown-menu text-small">
+          <li><a class="dropdown-item" href="#">Profil</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#" (click)="logout()">Déconnexion</a></li>
+        </ul>
       </div>
     </div>
+  </div>
 </header>

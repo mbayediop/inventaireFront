@@ -1,2 +1,195 @@
-<app-header></app-header>
-<h1>Tableau de board</h1>
+<div class="dashboard-container">
+    <div class="main-content">
+      <div class="sidebar-container">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="content-area">
+        <!-- Votre contenu principal du dashboard ici -->
+        <div class="container mt-4">
+          <h4 class="mb-4">Filtres par site
+          </h4>
+          <!-- Filtres -->
+          <div class="row mb-4 g-3">
+            <div class="col-md-4">
+              <select class="form-select">
+                <option value="all">Tous les types</option>
+                <option value="carrefour">Carrefour</option>
+                <option value="entrepot">Entrepot</option>
+                <option value="siege">Siège ADIALEA</option>
+                <option value="supeco">Supeco</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher...">
+              </div>
+            </div>
+            <div class="col-md-4 text-end">
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-arrow-clockwise"></i> Actualiser
+              </button>
+            </div>
+          </div>
+        
+          <!-- Cartes des sites -->
+          <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+              <div class="card h-100 shadow-sm">
+                <div class="card-header">
+                  <h5 class="mb-0">
+                    <i class="bi bi-shop me-2"></i>
+                    Siege ADIALEA
+                    <span class="badge bg-secondary float-end">Dakar</span>
+                  </h5>
+                </div>
+                
+                <div class="card-body">
+                  <!-- Matériels -->
+                  <h6 class="text-muted border-bottom pb-2">
+                    <i class="bi bi-pc-display me-2"></i> Matériels
+                  </h6>
+                  <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Ordinateur</span>
+                        <span class="badge">
+                          75 / 6
+                        </span>
+                      </div>
+                    </li>
+                    <li class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Imprimantes</span>
+                        <span class="badge">
+                          2 / 1
+                        </span>
+                      </div>
+                    </li>
+                    <li class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>PDA</span>
+                        <span class="badge">
+                          6 / 0
+                        </span>
+                      </div>
+                    </li>
+                    <li class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Balance</span>
+                        <span class="badge">
+                          2 / 0
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+        
+                  <!-- Consommables -->
+                  <h6 class="text-muted border-bottom pb-2">
+                    <i class="bi bi-box-seam me-2"></i> Consommables
+                  </h6>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Rouleau gondole blanc</span>
+                        <span class="badge bg-info text-dark">
+                          10 unit
+                        </span>
+                      </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span>Rouleau gondole orange</span>
+                          <span class="badge bg-info text-dark">
+                            4 unit
+                          </span>
+                        </div>
+                      </li>
+                  </ul>
+                </div>
+        
+                <div class="card-footer text-muted small">
+                  <i class="bi bi-clock"></i> MAJ: 24/04/2025
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Statistiques simplifiées sans Chart.js -->
+          <div class="row mt-5">
+            <div class="col-8">
+              <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                  <div>
+                    <i class="bi bi-bar-chart me-2"></i> Résumé des stocks
+                  </div>
+                  <div class="small">
+                    Total sites: 8
+                  </div>
+                </div>
+                <div class="card-body">
+                  <!-- Légende -->
+                  <div class="d-flex justify-content-center gap-4 mb-4">
+                    <span class="badge bg-success p-2"><i class="bi bi-square-fill me-1"></i> Matériels</span>
+                    <span class="badge bg-info p-2"><i class="bi bi-square-fill me-1"></i> Consommables</span>
+                  </div>
+          
+                  <!-- Graphique vertical -->
+                  <div class="vertical-chart">
+                    <div class="row g-3">
+                      <div class="col-md-6 col-lg-4">
+                        <div class="chart-card h-100">
+                          <div class="chart-header bg-light p-3 border-bottom">
+                            <h6 class="mb-0">Siege ADIALEA</h6>
+                          </div>
+                          <div class="chart-body p-3">
+                            <div class="d-flex align-items-end gap-2" style="height: 150px;">
+                              <!-- Barre Matériels -->
+                              <div class="chart-col">
+                                <div class="chart-value text-center small mb-1">
+                                  112
+                                </div>
+                                <div class="chart-bar bg-success">
+                                </div>
+                                <div class="chart-label text-center small mt-1">
+                                  Matériels
+                                </div>
+                              </div>
+                              
+                              <!-- Barre Consommables -->
+                              <div class="chart-col">
+                                <div class="chart-value text-center small mb-1">
+                                  124
+                                </div>
+                                <div class="chart-bar bg-info">
+                                </div>
+                                <div class="chart-label text-center small mt-1">
+                                  Consommables
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="chart-footer bg-light p-2 border-top text-center">
+                            <small class="text-muted">
+                              Total: <strong>88</strong>
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="site-cards">
+                <div class="site-card">
+                  <h3>Siege ADIALEA</h3>
+                  <!-- Affichez les détails du site -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

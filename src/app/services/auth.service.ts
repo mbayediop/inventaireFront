@@ -1,37 +1,30 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8000/api/auth';
+  private apiUrl = 'http://localhost:8000/api/users/login/'; // adapte l'URL
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient,
+              private router: Router) {}
 
-  login(username: string, password: string) {
-    return this.http.post<{access: string}>(
-      `${this.API_URL}/login/`,
-      { username, password }
-    ).pipe(
-      tap(response => {
-        localStorage.setItem('access_token', response.access);
+  login(credentials: { username: string; password: string }): Observable<any> {
+    return this.http.post(this.apiUrl, credentials).pipe(
+      tap((res: any) => {
+        localStorage.setItem('access_token', res.access);
+        localStorage.setItem('refresh_token', res.refresh);
       })
     );
-  }
-
-
-  isLoggedIn(): boolean {
-    return !!this.getToken(); // Vérifie la présence du token
-  }
-  
-  getToken() {
-    return localStorage.getItem('access_token');
   }
 
   logout() {
     localStorage.removeItem('access_token');
     this.router.navigate(['/login']);
+  }
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('access_token');
   }
 }
