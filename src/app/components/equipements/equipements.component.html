@@ -1,1 +1,94 @@
-<p>equipements works!</p>
+<div class="container mt-4">
+  <h2 class="mb-4">Liste des équipements</h2>
+
+  <!-- Barre de recherche -->
+  <div class="mb-3">
+    <input type="text" 
+           class="form-control" 
+           placeholder="Rechercher un équipement..." 
+           [(ngModel)]="searchTerm"
+           (input)="filterEquipements()">
+  </div>
+
+  <!-- Table -->
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Magasin</th>
+        <th>Nom</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Montant HT</th>
+        <th>Montant Total HT</th>
+        <th>Fournisseur</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let equipement of filteredEquipements">
+        <td>{{ equipement.site.nom }}</td>
+        <td>{{ equipement.assignment }}</td>
+        <td>{{ equipement.type }}</td>
+        <td>{{ equipement.status }}</td>
+        <td>{{ equipement.amount_ht }}</td>
+        <td>{{ equipement.total_amount_ht }}</td>
+        <td>{{ equipement.facture?.fournisseur?.name }}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="voirPlus(equipement)">Voir plus</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-primary me-2" 
+            [disabled]="currentPage === 1"
+            (click)="changePage(currentPage - 1)">
+      Précédent
+    </button>
+
+    <span>Page {{ currentPage }}</span>
+
+    <button class="btn btn-primary ms-2" 
+            [disabled]="currentPage * pageSize >= totalFilteredEquipements"
+            (click)="changePage(currentPage + 1)">
+      Suivant
+    </button>
+  </div>
+</div>
+
+<!-- MODALE DÉTAILS ÉQUIPEMENT -->
+<div class="modal fade" id="equipementDetailModal" tabindex="-1" aria-labelledby="equipementDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" *ngIf="selectedEquipement">
+      <div class="modal-header">
+        <h5 class="modal-title" id="equipementDetailModalLabel">Détails de l'équipement</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nom :</strong> {{ selectedEquipement.assignment }}</p>
+        <p><strong>Type :</strong> {{ selectedEquipement.type }}</p>
+        <p><strong>Status :</strong> {{ selectedEquipement.status }}</p>
+        <p><strong>Quantité :</strong> {{ selectedEquipement.quantity }}</p>
+        <p><strong>Marque/Modèle :</strong> {{ selectedEquipement.marque_modele }}</p>
+        <p><strong>Montant HT :</strong> {{ selectedEquipement.amount_ht }}</p>
+        <p><strong>Total HT :</strong> {{ selectedEquipement.total_amount_ht }}</p>
+        <p><strong>Service :</strong> {{ selectedEquipement.service }}</p>
+        <p><strong>Site :</strong> {{ selectedEquipement.site?.nom }}</p>
+        <p><strong>Fournisseur :</strong> {{ selectedEquipement.facture?.fournisseur?.name }}</p>
+        <p><strong>Date facture :</strong> {{ selectedEquipement.facture?.date_facture }}</p>
+        <p><strong>Bon de commande :</strong> {{ selectedEquipement.facture?.bon_commande }}</p>
+        <p><strong>Bon de livraison :</strong> {{ selectedEquipement.facture?.bon_livraison }}</p>
+
+        <p><strong>Fichier bon de commande :</strong>
+          <a *ngIf="selectedEquipement.facture?.fichier_bon_commande" [href]="selectedEquipement.facture.fichier_bon_commande" target="_blank">Voir</a>
+        </p>
+
+        <p><strong>QR Code :</strong><br>
+          <img *ngIf="selectedEquipement.qr_code" [src]="selectedEquipement.qr_code" alt="QR Code" style="width:150px;">
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
