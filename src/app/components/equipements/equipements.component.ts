@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { EquipementsService } from '../../services/equipements.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Equipement } from '../../../models/equipement.model';
 declare var bootstrap: any;
 
 @Component({
@@ -12,7 +13,7 @@ declare var bootstrap: any;
 })
 export class EquipementsComponent {
   
-  equipements: any[] = [];
+  equipements: Equipement[] = [];
   selectedEquipement: any = null;
   filteredEquipements: any[] = [];
   currentPage: number = 1;
@@ -41,11 +42,8 @@ loadEquipements() {
   filterEquipements() {
     const term = this.searchTerm.toLowerCase();
     const filtered = this.equipements.filter(equipement =>
-      (equipement.name && equipement.name.toLowerCase().includes(term)) ||
       (equipement.type && equipement.type.toLowerCase().includes(term)) ||
-      (equipement.status && equipement.status.toLowerCase().includes(term)) ||
-      (equipement.site?.name && equipement.site.name.toLowerCase().includes(term)) ||
-      (equipement.supplier?.name && equipement.supplier.name.toLowerCase().includes(term))
+      (equipement.status && equipement.status.toLowerCase().includes(term))
     );
     
     // Après filtre, remettre la pagination à la première page
@@ -60,11 +58,8 @@ loadEquipements() {
     
     const term = this.searchTerm.toLowerCase();
     const filtered = this.equipements.filter(equipement =>
-      (equipement.name && equipement.name.toLowerCase().includes(term)) ||
-      (equipement.type && equipement.type.toLowerCase().includes(term)) ||
-      (equipement.status && equipement.status.toLowerCase().includes(term)) ||
-      (equipement.site?.name && equipement.site.name.toLowerCase().includes(term)) ||
-      (equipement.supplier?.name && equipement.supplier.name.toLowerCase().includes(term))
+      (equipement.assignment && equipement.assignment.toLowerCase().includes(term)) ||
+      (equipement.status && equipement.status.toLowerCase().includes(term)) 
     );
   
     this.filteredEquipements = filtered.slice(startIndex, endIndex);
@@ -73,13 +68,17 @@ loadEquipements() {
   get totalFilteredEquipements(): number {
     const term = this.searchTerm.toLowerCase();
     return this.equipements.filter(equipement =>
-      (equipement.name && equipement.name.toLowerCase().includes(term)) ||
-      (equipement.type && equipement.type.toLowerCase().includes(term)) ||
-      (equipement.status && equipement.status.toLowerCase().includes(term)) ||
-      (equipement.site?.name && equipement.site.name.toLowerCase().includes(term)) ||
-      (equipement.supplier?.name && equipement.supplier.name.toLowerCase().includes(term))
+      (equipement.assignment && equipement.assignment.toLowerCase().includes(term)) ||
+      (equipement.status && equipement.status.toLowerCase().includes(term))
     ).length;
   }
+
+  getTotalMontantHT(): number {
+    return this.filteredEquipements.reduce((total, equipement) => {
+      return total + parseFloat(equipement.total_amount_ht || 0);
+    }, 0);
+  }
+  
 
 
   voirPlus(equipement: any) {
@@ -88,6 +87,14 @@ loadEquipements() {
     if (modalElement) {
       const modal = new bootstrap.Modal(modalElement);
       modal.show();
+    }
+  }
+
+  supprimerEquipement(equipement: Equipement) {
+    if (confirm('Voulez-vous vraiment supprimer cet équipement ?')) {
+      this.equipementService.delete(equipement.id).subscribe(() => {
+        this.loadEquipements(); // Recharge la liste après suppression
+      });
     }
   }
   
