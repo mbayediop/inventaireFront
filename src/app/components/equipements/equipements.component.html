@@ -6,8 +6,16 @@
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Liste des équipements</h2>
-    <button class="btn btn-success">Ajouter un équipement</button>
-  </div>
+  <!--<button class="btn btn-success">Ajouter un équipement</button>  -->
+  
+  <button class="btn btn-success"
+  data-bs-toggle="modal"
+  data-bs-target="#addEquipementModal">
+Ajouter un équipement
+</button>
+
+  
+</div>
 
   <!-- Barre de recherche -->
   <div class="mb-3">
@@ -35,14 +43,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let equipement of filteredEquipements">
-        <td>{{ equipement.site.nom }}</td>
+        <td>{{ equipement.site.nom}}</td>
         <td>{{ equipement.assignment }}</td>
         <td>{{ equipement.description }}</td>
         <td>{{ equipement.type }}</td>
         <td>{{ equipement.status }}</td>
         <td>{{ equipement.amount_ht }}</td>
         <td>{{ equipement.total_amount_ht }}</td>
-        <td>{{ equipement.facture?.fournisseur?.name }}</td>
+        <td>{{ equipement.supplier?.name }}</td>
         <td>
           <button class="btn btn-sm btn-primary" (click)="voirPlus(equipement)">Voir plus</button>
           <button class="btn btn-sm btn-danger" (click)="supprimerEquipement(equipement)">Supprimer</button>
@@ -86,15 +94,24 @@
         <p><strong>Montant HT :</strong> {{ selectedEquipement.amount_ht }} FCFA</p>
         <p><strong>Total HT :</strong> {{ selectedEquipement.total_amount_ht }} FCFA</p>
         <p><strong>Service :</strong> {{ selectedEquipement.service }}</p>
-        <p><strong>Site :</strong> {{ selectedEquipement.site?.nom }}</p>
-        <p><strong>Fournisseur :</strong> {{ selectedEquipement.facture?.fournisseur?.name }}</p>
-        <p><strong>Date facture :</strong> {{ selectedEquipement.facture?.date_facture }}</p>
-        <p><strong>Bon de commande :</strong> {{ selectedEquipement.facture?.bon_commande }}</p>
-        <p><strong>Bon de livraison :</strong> {{ selectedEquipement.facture?.bon_livraison }}</p>
+        <p><strong>Site :</strong> {{ selectedEquipement.site.nom }}</p>
+        <p><strong>Fournisseur :</strong> {{ selectedEquipement.supplier?.name  }}</p>
+        <p><strong>Date facture :</strong> {{ selectedEquipement.date_facture}}</p>
+        <p><strong>Bon de commande :</strong> {{ selectedEquipement.bon_commande }}</p>
+        
 
         <p><strong>Fichier bon de commande :</strong>
-          <a *ngIf="selectedEquipement.facture?.fichier_bon_commande"
-            [href]="selectedEquipement.facture.fichier_bon_commande"
+          <a *ngIf="selectedEquipement.fichier_bon_commande"
+            [href]="selectedEquipement.fichier_bon_commande"
+            target="_blank">
+            <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Voir le PDF
+          </a>
+        </p>
+
+        <p><strong>Bon de livraison :</strong> {{ selectedEquipement.bon_livraison }}</p>
+        <p><strong>Fichier bon de livraison :</strong>
+          <a *ngIf="selectedEquipement.fichier_bon_livraison"
+            [href]="selectedEquipement.fichier_bon_livraison"
             target="_blank">
             <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Voir le PDF
           </a>
@@ -107,3 +124,156 @@
     </div>
   </div>
 </div>
+
+
+<!-- Modal pour ajouter un équipement -->
+<!-- Modal pour ajouter un équipement -->
+<div class="modal fade" id="addEquipementModal" tabindex="-1" aria-labelledby="addEquipementModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addEquipementModalLabel">Ajouter un équipement</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulaire d'ajout d'équipement -->
+        <form (ngSubmit)="ajouterEquipement()" #equipementForm="ngForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="service" class="form-label">Service *</label>
+                <input type="text" id="service" class="form-control" [(ngModel)]="newEquipement.service" name="service" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">Description *</label>
+                <input type="text" id="description" class="form-control" [(ngModel)]="newEquipement.description" name="description" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="quantity" class="form-label">Quantité *</label>
+                <input type="number" id="quantity" class="form-control" [(ngModel)]="newEquipement.quantity" name="quantity" min="1" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="marque_modele" class="form-label">Marque/Modèle *</label>
+                <input type="text" id="marque_modele" class="form-control" [(ngModel)]="newEquipement.marque_modele" name="marque_modele" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="amount_ht" class="form-label">Montant HT *</label>
+                <input type="number" id="amount_ht" class="form-control" [(ngModel)]="newEquipement.amount_ht" name="amount_ht" min="0" step="0.01" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="acquisition_date" class="form-label">Date d'acquisition *</label>
+                <input type="date" id="acquisition_date" class="form-control" [(ngModel)]="newEquipement.acquisition_date" name="acquisition_date" required />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="supplier" class="form-label">Fournisseur *</label>
+                <select id="supplier" class="form-select" [(ngModel)]="newEquipement.supplier" name="supplier" required>
+                  <option [ngValue]="null">-- Sélectionner un fournisseur --</option>
+                  <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.id">
+                    {{ fournisseur.name }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="assignment" class="form-label">Affectation *</label>
+                <input type="text" id="assignment" class="form-control" [(ngModel)]="newEquipement.assignment" name="assignment" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="status" class="form-label">Statut *</label>
+                <select id="status" class="form-select" [(ngModel)]="newEquipement.status" name="status" required>
+                  <option value="en_service">En service</option>
+                  <option value="hors_service">Hors service</option>
+                  <option value="sphere">Sphere</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="type" class="form-label">Type *</label>
+                <select id="type" class="form-select" [(ngModel)]="newEquipement.type" name="type" required>
+                  <option value="ordinateur">Ordinateur</option>
+                  <option value="laptop">Laptop</option>
+                  <option value="imprimante">Imprimante</option>
+                  <option value="pda">PDA</option>
+                  <option value="caisse">Caisse</option>
+                  <option value="accessoire">Accessoire</option>
+                  <option value="ecran">Ecran</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="type_depense" class="form-label">Type de dépense *</label>
+                <select id="type_depense" class="form-select" [(ngModel)]="newEquipement.type_depense" name="type_depense" required>
+                  <option value="capex">CAPEX</option>
+                  <option value="opex">OPEX</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="site" class="form-label">Site *</label>
+                <select id="site" class="form-select" [(ngModel)]="newEquipement.site" name="site" required>
+                  <option [ngValue]="null">-- Sélectionner un site --</option>
+                  <option *ngFor="let site of sites" [value]="site.id">{{ site.nom }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <h5 class="mt-4">Informations de facture</h5>
+          <hr>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="facture_bon_commande" class="form-label">Bon de commande</label>
+                <input type="text" id="facture_bon_commande" class="form-control" 
+                  [(ngModel)]="newEquipement.facture.bon_commande" name="facture_bon_commande" />
+              </div>
+
+              <div class="mb-3">
+                <label for="facture_fichier_bon_commande" class="form-label">Fichier bon de commande</label>
+                <input type="file" id="facture_fichier_bon_commande" class="form-control" 
+                  (change)="onFileChange($event, 'fichier_bon_commande')" />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="facture_bon_livraison" class="form-label">Bon de livraison</label>
+                <input type="text" id="facture_bon_livraison" class="form-control" 
+                  [(ngModel)]="newEquipement.facture.bon_livraison" name="facture_bon_livraison" />
+              </div>
+
+              <div class="mb-3">
+                <label for="facture_fichier_bon_livraison" class="form-label">Fichier bon de livraison</label>
+                <input type="file" id="facture_fichier_bon_livraison" class="form-control" 
+                  (change)="onFileChange($event, 'fichier_bon_livraison')" />
+              </div>
+
+              <div class="mb-3">
+                <label for="facture_date_facture" class="form-label">Date facture</label>
+                <input type="date" id="facture_date_facture" class="form-control" 
+                  [(ngModel)]="newEquipement.facture.date_facture" name="facture_date_facture" />
+              </div>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <button type="button" class="btn btn-secondary me-md-2" data-bs-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!equipementForm.form.valid">Ajouter l'équipement</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+
