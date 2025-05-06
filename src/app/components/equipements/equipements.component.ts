@@ -14,49 +14,62 @@ declare var bootstrap: any;
   styleUrl: './equipements.component.css'
 })
 export class EquipementsComponent implements OnInit {
-  sites: any[] = []; 
-  fournisseurs: any[] = [];
-  equipements: Equipement[] = [];
-  selectedEquipement: any = null;
-  filteredEquipements: any[] = [];
-  currentPage: number = 1;
-  pageSize: number = 10;
+   // Propriétés pour exposer l'objet Math dans le template
+   Math = Math;
+   sites: any[] = []; 
+   fournisseurs: any[] = [];
+   equipements: Equipement[] = [];
+   selectedEquipement: any = null;
+   filteredEquipements: any[] = [];
+   currentPage: number = 1;
+   pageSize: number = 10;
+   searchTerm: string = '';
+   filterType: string = '';
+   filterStatus: string = '';
+   filterSite: string = '';
+   filterSupplier: string = '';
+   filterMagasin: string = '';
+    filterUtilisateur: string = '';
+    filterNomEquipement: string = '';
+    filterFournisseur: string = '';
 
-  searchTerm: string = '';
-  filterType: string = '';
-  filterStatus: string = '';
-  filterSite: string = '';
-  filterSupplier: string = '';
-
-  // Modèle pour le nouveau équipement
-  newEquipement: any = {
-  service: '',
-  description: '',
-  quantity: 1,
-  marque_modele: '',
-  amount_ht: 0,
-  acquisition_date: '',
-  supplier: null,
-  assignment: '',
-  status: 'en_service',
-  type: 'ordinateur',
-  type_depense: 'opex',
-  site: null,
-  // Champs de facture inclus dans l'objet principal
-  bon_commande: '',
-  bon_livraison: '',
-  date_facture: '',
-  // Garder la structure facture pour la rétrocompatibilité avec votre formulaire
-  facture: {
-    bon_commande: '',
-    bon_livraison: '',
-    date_facture: ''
-  }
-  };
-  
-  // Variables pour les fichiers
-  fichierBonCommande: File | null = null;
-  fichierBonLivraison: File | null = null;
+   
+   // Filtres avancés
+   filtresAvancesVisibles: boolean = false;
+   
+   
+   // Import/Export
+   importFile: File | null = null;
+   importPreview: any[] = [];
+   importPreviewHeaders: string[] = [];
+ 
+   // Modèle pour le nouveau équipement
+   newEquipement: any = {
+     service: '',
+     description: '',
+     quantity: 1,
+     marque_modele: '',
+     amount_ht: 0,
+     acquisition_date: '',
+     supplier: null,
+     assignment: '',
+     status: 'en_service',
+     type: 'ordinateur',
+     type_depense: 'capex',
+     site: null,
+     // Champs de facture inclus dans l'objet principal
+     bon_commande: '',
+     bon_livraison: '',
+     date_facture: '',
+     facture: {
+       bon_commande: '',
+       bon_livraison: '',
+       date_facture: ''
+     }
+   }
+   // Variables pour les fichiers
+   fichierBonCommande: File | null = null;
+   fichierBonLivraison: File | null = null;
 
   constructor(
     private equipementService: EquipementsService,
@@ -92,19 +105,61 @@ export class EquipementsComponent implements OnInit {
 
   filterEquipements() {
     const term = this.searchTerm.toLowerCase();
-    const filtered = this.equipements.filter(equipement =>
-      (equipement.type && equipement.type.toLowerCase().includes(term)) ||
-      (equipement.status && equipement.status.toLowerCase().includes(term)) ||
-      (equipement.description && equipement.description.toLowerCase().includes(term)) ||
-      (equipement.assignment && equipement.assignment.toLowerCase().includes(term))
-    );
-    
-    // Après filtre, remettre la pagination à la première page
+  
+    const filtered = this.equipements.filter(equipement => {
+      const matchesSearch =
+        (!term || 
+          (equipement.type && equipement.type.toLowerCase().includes(term)) ||
+          (equipement.status && equipement.status.toLowerCase().includes(term)) ||
+          (equipement.description && equipement.description.toLowerCase().includes(term)) ||
+          (equipement.assignment && equipement.assignment.toLowerCase().includes(term)));
+  
+      const matchesType = !this.filterType || equipement.type === this.filterType;
+      const matchesStatus = !this.filterStatus || equipement.status === this.filterStatus;
+      const matchesSite = !this.filterSite || equipement.site?.nom == this.filterSite;
+      const matchesSupplier = !this.filterSupplier || equipement.supplier?.name == this.filterSupplier;
+
+  
+      const matchesMagasin = !this.filterMagasin || equipement.site?.nom?.toLowerCase().includes(this.filterMagasin.toLowerCase());
+      const matchesUtilisateur = !this.filterUtilisateur || equipement.assignment?.toLowerCase().includes(this.filterUtilisateur.toLowerCase());
+      const matchesNomEquipement = !this.filterNomEquipement || equipement.description?.toLowerCase().includes(this.filterNomEquipement.toLowerCase());
+      const matchesFournisseur = !this.filterFournisseur || equipement.supplier?.name?.toLowerCase().includes(this.filterFournisseur.toLowerCase());
+  
+      return (
+        matchesSearch &&
+        matchesType &&
+        matchesStatus &&
+        matchesSite &&
+        matchesSupplier &&
+        matchesMagasin &&
+        matchesUtilisateur &&
+        matchesNomEquipement &&
+        matchesFournisseur
+      );
+    });
+  
     this.currentPage = 1;
     this.filteredEquipements = filtered.slice(0, this.pageSize);
   }
+  
+  
 
-  changePage(page: number) {
+resetFilters() {
+    this.searchTerm = '';
+    this.filterType = '';
+    this.filterStatus = '';
+    this.filterSite = '';
+    this.filterSupplier = '';
+    this.filterMagasin = '';
+    this.filterUtilisateur = '';
+    this.filterNomEquipement = '';
+    this.filterFournisseur = '';
+    this.filterEquipements();
+  }
+  
+
+
+changePage(page: number) {
     this.currentPage = page;
     const startIndex = (page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
@@ -134,6 +189,11 @@ export class EquipementsComponent implements OnInit {
     }, 0);
   }
 
+
+  toggleFiltresAvances() {
+    this.filtresAvancesVisibles = !this.filtresAvancesVisibles;
+  }
+
   voirPlus(equipement: any) {
     this.selectedEquipement = equipement;
     const modalElement = document.getElementById('equipementDetailModal');
@@ -146,7 +206,7 @@ export class EquipementsComponent implements OnInit {
   supprimerEquipement(equipement: Equipement) {
     if (confirm('Voulez-vous vraiment supprimer cet équipement ?')) {
       this.equipementService.delete(equipement.id).subscribe(() => {
-        this.loadEquipements(); // Recharge la liste après suppression
+        this.loadEquipements();
       });
     }
   }
@@ -227,8 +287,8 @@ export class EquipementsComponent implements OnInit {
     this.equipementService.create(formData).subscribe({
       next: (response) => {
         console.log('Équipement ajouté avec succès:', response);
-        this.loadEquipements();
         this.resetForm();
+        this.loadEquipements();
         
         // Fermer le modal
         const modalElement = document.getElementById('addEquipementModal');
@@ -248,6 +308,7 @@ export class EquipementsComponent implements OnInit {
         alert('Une erreur s\'est produite lors de l\'ajout de l\'équipement.');
       }
     });
+    
   }
   
   resetForm() {
@@ -278,3 +339,5 @@ export class EquipementsComponent implements OnInit {
     this.fichierBonLivraison = null;
   }
 }
+
+

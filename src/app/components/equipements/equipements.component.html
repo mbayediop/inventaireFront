@@ -6,74 +6,161 @@
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Liste des équipements</h2>
-  <!--<button class="btn btn-success">Ajouter un équipement</button>  -->
-  
-  <button class="btn btn-success"
-  data-bs-toggle="modal"
-  data-bs-target="#addEquipementModal">
-Ajouter un équipement
-</button>
-
-  
-</div>
-
-  <!-- Barre de recherche -->
-  <div class="mb-3">
-    <input type="text" 
-           class="form-control" 
-           placeholder="Rechercher un équipement..." 
-           [(ngModel)]="searchTerm"
-           (input)="filterEquipements()">
+    <div>
+      <button class="btn btn-success me-2"
+        data-bs-toggle="modal"
+        data-bs-target="#addEquipementModal">
+        <i class="bi bi-plus-circle"></i> Ajouter un équipement
+      </button>
+      <button class="btn btn-primary me-2">
+        <i class="bi bi-download"></i> Exporter
+      </button>
+      <button class="btn btn-secondary">
+        <i class="bi bi-upload"></i> Importer
+      </button>
+    </div>
   </div>
 
+ <!-- Barre de recherche -->
+ <div class="input-group mb-3">
+  <span class="input-group-text">
+    <i class="bi bi-search"></i>
+  </span>
+  <input type="text" 
+         class="form-control" 
+         placeholder="Rechercher un équipement..." 
+         [(ngModel)]="searchTerm"
+         (input)="filterEquipements()">
+</div>
+
+  <!-- Filtres avancés -->
+  <div class="card mb-3">
+    <div class="card-header bg-light">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Filtres avancés</h5>
+        <button class="btn btn-sm btn-link" (click)="toggleFiltresAvances()">
+          {{ filtresAvancesVisibles ? 'Masquer' : 'Afficher' }}
+        </button>
+      </div>
+    </div>
+    <div class="card-body" [ngClass]="{'d-none': !filtresAvancesVisibles}">
+      <div class="row">
+        <div class="col-md-3 mb-2">
+          <label for="filterSite" class="form-label">Site</label>
+          <select id="filterSite" class="form-select" [(ngModel)]="filterSite" (change)="filterEquipements()">
+            <option value="">Tous</option>
+            <option *ngFor="let site of sites" [value]="site.id">{{ site.nom }}</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-2">
+          <label for="filterType" class="form-label">Type</label>
+          <select id="filterType" class="form-select" [(ngModel)]="filterType" (change)="filterEquipements()">
+            <option value="">Tous</option>
+            <option value="ordinateur">Ordinateur</option>
+            <option value="laptop">Laptop</option>
+            <option value="imprimante">Imprimante</option>
+            <option value="pda">PDA</option>
+            <option value="caisse">Caisse</option>
+            <option value="accessoire">Accessoire</option>
+            <option value="ecran">Ecran</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-2">
+          <label for="filterStatus" class="form-label">Statut</label>
+          <select id="filterStatus" class="form-select" [(ngModel)]="filterStatus" (change)="filterEquipements()">
+            <option value="">Tous</option>
+            <option value="en_service">En service</option>
+            <option value="hors_service">Hors service</option>
+            <option value="sphere">Sphere</option>
+          </select>
+        </div>
+      
+        <div class="col-md-3 mb-2">
+          <label for="filterSupplier" class="form-label">Fournisseur</label>
+          <select id="filterSupplier" class="form-select" [(ngModel)]="filterSupplier" (change)="filterEquipements()">
+            <option value="">Tous</option>
+            <option *ngFor="let fournisseur of fournisseurs" [value]="fournisseur.id">{{ fournisseur.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-12">
+          <button class="btn btn-sm btn-outline-secondary" (click)="resetFilters()">Réinitialiser les filtres</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
   <!-- Table -->
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Magasin</th>
-        <th>Utilisateur</th>
-        <th>Nom équipement</th>
-        <th>Type</th>
-        <th>Status</th>
-        <th>Total HT</th>
-        <th>Total TTC</th>
-        <th>Fournisseur</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let equipement of filteredEquipements">
-        <td>{{ equipement.site.nom}}</td>
-        <td>{{ equipement.assignment }}</td>
-        <td>{{ equipement.description }}</td>
-        <td>{{ equipement.type }}</td>
-        <td>{{ equipement.status }}</td>
-        <td>{{ equipement.amount_ht }}</td>
-        <td>{{ equipement.total_amount_ht }}</td>
-        <td>{{ equipement.supplier?.name }}</td>
-        <td>
-          <button class="btn btn-sm btn-primary" (click)="voirPlus(equipement)">Voir plus</button>
-          <button class="btn btn-sm btn-danger" (click)="supprimerEquipement(equipement)">Supprimer</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Magasin</th>
+          <th>Utilisateur</th>
+          <th>Nom équipement</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Total HT</th>
+          <th>Total TTC</th>
+          <th>Fournisseur</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let equipement of filteredEquipements">
+          <td>{{ equipement.site.nom }}</td>
+          <td>{{ equipement.assignment }}</td>
+          <td>{{ equipement.description }}</td>
+          <td>{{ equipement.type }}</td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'bg-success': equipement.status === 'en_service',
+              'bg-danger': equipement.status === 'hors_service',
+              'bg-warning': equipement.status === 'sphere'
+            }">{{ equipement.status }}</span>
+          </td>
+          <td>{{ equipement.amount_ht | number:'1.0-0' }}</td>
+          <td>{{ equipement.total_amount_ht | number:'1.0-0' }}</td>
+          <td>{{ equipement.supplier?.name }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary me-1" (click)="voirPlus(equipement)">
+              <i class="bi bi-chevron-double-down">+</i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="supprimerEquipement(equipement)">
+              <i class="bi bi-trash">x</i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredEquipements.length === 0">
+          <td colspan="9" class="text-center py-3">Aucun équipement trouvé</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <!-- Pagination -->
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-primary me-2" 
-            [disabled]="currentPage === 1"
-            (click)="changePage(currentPage - 1)">
-      Précédent
-    </button>
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <span>Affichage de {{ (currentPage - 1) * pageSize + 1 }} à 
+      {{ Math.min(currentPage * pageSize, totalFilteredEquipements) }} 
+      sur {{ totalFilteredEquipements }} enregistrements</span>
+    </div>
+    <div>
+      <button class="btn btn-outline-primary me-2" 
+              [disabled]="currentPage === 1"
+              (click)="changePage(currentPage - 1)">
+        <i class="bi bi-chevron-left"></i> Précédent
+      </button>
 
-    <span>Page {{ currentPage }}</span>
-
-    <button class="btn btn-primary ms-2" 
-            [disabled]="currentPage * pageSize >= totalFilteredEquipements"
-            (click)="changePage(currentPage + 1)">
-      Suivant
-    </button>
+      <button class="btn btn-outline-primary ms-2" 
+              [disabled]="currentPage * pageSize >= totalFilteredEquipements"
+              (click)="changePage(currentPage + 1)">
+        Suivant <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -86,47 +173,64 @@ Ajouter un équipement
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
-        <p><strong>Nom :</strong> {{ selectedEquipement.assignment }}</p>
-        <p><strong>Type :</strong> {{ selectedEquipement.type }}</p>
-        <p><strong>Status :</strong> {{ selectedEquipement.status }}</p>
-        <p><strong>Quantité :</strong> {{ selectedEquipement.quantity }}</p>
-        <p><strong>Marque/Modèle :</strong> {{ selectedEquipement.marque_modele }}</p>
-        <p><strong>Montant HT :</strong> {{ selectedEquipement.amount_ht }} FCFA</p>
-        <p><strong>Total HT :</strong> {{ selectedEquipement.total_amount_ht }} FCFA</p>
-        <p><strong>Service :</strong> {{ selectedEquipement.service }}</p>
-        <p><strong>Site :</strong> {{ selectedEquipement.site.nom }}</p>
-        <p><strong>Fournisseur :</strong> {{ selectedEquipement.supplier?.name  }}</p>
-        <p><strong>Date facture :</strong> {{ selectedEquipement.date_facture}}</p>
-        <p><strong>Bon de commande :</strong> {{ selectedEquipement.bon_commande }}</p>
-        
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Nom :</strong> {{ selectedEquipement.assignment }}</p>
+            <p><strong>Type :</strong> {{ selectedEquipement.type }}</p>
+            <p><strong>Status :</strong> {{ selectedEquipement.status }}</p>
+            <p><strong>Quantité :</strong> {{ selectedEquipement.quantity }}</p>
+            <p><strong>Marque/Modèle :</strong> {{ selectedEquipement.marque_modele }}</p>
+            <p><strong>Montant HT :</strong> {{ selectedEquipement.amount_ht | number:'1.0-0' }} FCFA</p>
+            <p><strong>Total HT :</strong> {{ selectedEquipement.total_amount_ht | number:'1.0-0' }} FCFA</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Service :</strong> {{ selectedEquipement.service }}</p>
+            <p><strong>Site :</strong> {{ selectedEquipement.site.nom }}</p>
+            <p><strong>Fournisseur :</strong> {{ selectedEquipement.supplier?.name }}</p>
+            <p><strong>Date facture :</strong> {{ selectedEquipement.date_facture | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Bon de commande :</strong> {{ selectedEquipement.bon_commande }}</p>
+            <p><strong>Bon de livraison :</strong> {{ selectedEquipement.bon_livraison }}</p>
+          </div>
+        </div>
 
-        <p><strong>Fichier bon de commande :</strong>
-          <a *ngIf="selectedEquipement.fichier_bon_commande"
-            [href]="selectedEquipement.fichier_bon_commande"
-            target="_blank">
-            <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Voir le PDF
-          </a>
-        </p>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <p><strong>Fichier bon de commande :</strong>
+              <a *ngIf="selectedEquipement.fichier_bon_commande"
+                [href]="selectedEquipement.fichier_bon_commande"
+                target="_blank" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Voir le PDF
+              </a>
+              <span *ngIf="!selectedEquipement.fichier_bon_commande">Non disponible</span>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Fichier bon de livraison :</strong>
+              <a *ngIf="selectedEquipement.fichier_bon_livraison"
+                [href]="selectedEquipement.fichier_bon_livraison"
+                target="_blank" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Voir le PDF
+              </a>
+              <span *ngIf="!selectedEquipement.fichier_bon_livraison">Non disponible</span>
+            </p>
+          </div>
+        </div>
 
-        <p><strong>Bon de livraison :</strong> {{ selectedEquipement.bon_livraison }}</p>
-        <p><strong>Fichier bon de livraison :</strong>
-          <a *ngIf="selectedEquipement.fichier_bon_livraison"
-            [href]="selectedEquipement.fichier_bon_livraison"
-            target="_blank">
-            <i class="bi bi-file-earmark-pdf-fill text-danger me-1"></i> Voir le PDF
-          </a>
-        </p>
-
-        <p><strong>QR Code :</strong><br>
-          <img *ngIf="selectedEquipement.qr_code" [src]="selectedEquipement.qr_code" alt="QR Code" style="width:150px;">
-        </p>
+        <div class="row mt-3">
+          <div class="col-md-12 text-center">
+            <p><strong>QR Code :</strong></p>
+            <img *ngIf="selectedEquipement.qr_code" [src]="selectedEquipement.qr_code" alt="QR Code" class="img-fluid" style="max-width:150px;">
+            <p *ngIf="!selectedEquipement.qr_code">QR Code non disponible</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
       </div>
     </div>
   </div>
 </div>
 
-
-<!-- Modal pour ajouter un équipement -->
 <!-- Modal pour ajouter un équipement -->
 <div class="modal fade" id="addEquipementModal" tabindex="-1" aria-labelledby="addEquipementModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -275,5 +379,5 @@ Ajouter un équipement
     </div>
   </div>
 </div>
- 
+
 
