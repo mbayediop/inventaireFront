@@ -138,7 +138,6 @@ export class EquipementsComponent implements OnInit {
         matchesFournisseur
       );
     });
-  
     this.currentPage = 1;
     this.filteredEquipements = filtered.slice(0, this.pageSize);
   }

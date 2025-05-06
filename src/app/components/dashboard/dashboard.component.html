@@ -34,82 +34,34 @@
         
           <!-- Cartes des sites -->
           <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
+            <div class="col" *ngFor="let site of sites">
               <div class="card h-100 shadow-sm">
-                <div class="card-header">
+                  <div class="card-header" [ngClass]="{
+                    'bg-warning text-dark': site.type === 'supeco',
+                    'bg-danger text-dark': site.type === 'carrefour_market'
+                  }">
                   <h5 class="mb-0">
                     <i class="bi bi-shop me-2"></i>
-                    Siege ADIALEA
-                    <span class="badge bg-secondary float-end">Dakar</span>
+                    {{ site.nom }}
+                    <span class="badge bg-secondary float-end">{{ site.type }}</span>
                   </h5>
                 </div>
                 
                 <div class="card-body">
                   <!-- Matériels -->
                   <h6 class="text-muted border-bottom pb-2">
-                    <i class="bi bi-pc-display me-2"></i> Matériels
+                    <i class="bi bi-pc-display me-2"></i> Equipements
                   </h6>
                   <ul class="list-group list-group-flush mb-3">
-                    <li class="list-group-item">
+                    <li class="list-group-item" >
                       <div class="d-flex justify-content-between align-items-center">
-                        <span>Ordinateur</span>
-                        <span class="badge">
-                          75 / 6
-                        </span>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span>Imprimantes</span>
-                        <span class="badge">
-                          2 / 1
-                        </span>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span>PDA</span>
-                        <span class="badge">
-                          6 / 0
-                        </span>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span>Balance</span>
-                        <span class="badge">
-                          2 / 0
+                        <span></span>
+                        <span class="badge bg-secondary float-end">
+                          
                         </span>
                       </div>
                     </li>
                   </ul>
-        
-                  <!-- Consommables -->
-                  <h6 class="text-muted border-bottom pb-2">
-                    <i class="bi bi-box-seam me-2"></i> Consommables
-                  </h6>
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span>Rouleau gondole blanc</span>
-                        <span class="badge bg-info text-dark">
-                          10 unit
-                        </span>
-                      </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <span>Rouleau gondole orange</span>
-                          <span class="badge bg-info text-dark">
-                            4 unit
-                          </span>
-                        </div>
-                      </li>
-                  </ul>
-                </div>
-        
-                <div class="card-footer text-muted small">
-                  <i class="bi bi-clock"></i> MAJ: 24/04/2025
                 </div>
               </div>
             </div>
@@ -131,7 +83,6 @@
                   <!-- Légende -->
                   <div class="d-flex justify-content-center gap-4 mb-4">
                     <span class="badge bg-success p-2"><i class="bi bi-square-fill me-1"></i> Matériels</span>
-                    <span class="badge bg-info p-2"><i class="bi bi-square-fill me-1"></i> Consommables</span>
                   </div>
           
                   <!-- Graphique vertical -->
@@ -156,17 +107,6 @@
                                 </div>
                               </div>
                               
-                              <!-- Barre Consommables -->
-                              <div class="chart-col">
-                                <div class="chart-value text-center small mb-1">
-                                  124
-                                </div>
-                                <div class="chart-bar bg-info">
-                                </div>
-                                <div class="chart-label text-center small mt-1">
-                                  Consommables
-                                </div>
-                              </div>
                             </div>
                           </div>
                           <div class="chart-footer bg-light p-2 border-top text-center">
@@ -178,14 +118,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-4">
-              <div class="site-cards">
-                <div class="site-card">
-                  <h3>Siege ADIALEA</h3>
-                  <!-- Affichez les détails du site -->
                 </div>
               </div>
             </div>

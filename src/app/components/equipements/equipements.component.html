@@ -98,13 +98,14 @@
     <table class="table table-bordered table-striped">
       <thead class="table-light">
         <tr>
-          <th>Magasin</th>
+          <th>Localisation</th>
           <th>Utilisateur</th>
           <th>Nom équipement</th>
           <th>Type</th>
           <th>Status</th>
           <th>Total HT</th>
           <th>Total TTC</th>
+          <th>Date Acquisition</th>
           <th>Fournisseur</th>
           <th>Actions</th>
         </tr>
@@ -124,6 +125,7 @@
           </td>
           <td>{{ equipement.amount_ht | number:'1.0-0' }}</td>
           <td>{{ equipement.total_amount_ht | number:'1.0-0' }}</td>
+          <td>{{ equipement.acquisition_date}}</td>
           <td>{{ equipement.supplier?.name }}</td>
           <td>
             <button class="btn btn-sm btn-primary me-1" (click)="voirPlus(equipement)">
