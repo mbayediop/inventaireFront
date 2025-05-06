@@ -116,8 +116,9 @@ export class EquipementsComponent implements OnInit {
   
       const matchesType = !this.filterType || equipement.type === this.filterType;
       const matchesStatus = !this.filterStatus || equipement.status === this.filterStatus;
-      const matchesSite = !this.filterSite || equipement.site?.nom == this.filterSite;
-      const matchesSupplier = !this.filterSupplier || equipement.supplier?.name == this.filterSupplier;
+      const matchesSite = !this.filterSite || equipement.site?.id === +this.filterSite;
+      const matchesSupplier = !this.filterSupplier || equipement.supplier?.id === +this.filterSupplier;
+
 
   
       const matchesMagasin = !this.filterMagasin || equipement.site?.nom?.toLowerCase().includes(this.filterMagasin.toLowerCase());
