@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   templateUrl: './consommables.component.html',
   styleUrl: './consommables.component.css'
 })
+
+
 export class ConsommablesComponent {
 
 }
