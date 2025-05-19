@@ -15,13 +15,6 @@
             DASHBOARD
           </a>
         </li>
-     <!-- <li>
-          <a routerLink="/sites" 
-             class="nav-link px-2 fw-medium hover-effect"
-             routerLinkActive="active-link">
-            SITES
-          </a>
-        </li>  --> 
         <a routerLink="/equipements" class="nav-link px-2 fw-medium hover-effect" routerLinkActive="active-link">
           EQUIPEMENTS
         </a> 
@@ -40,17 +33,15 @@
           </a>
         </li>
       </ul>
-
-      <!-- Zone utilisateur (inchangée) -->
       <div class="dropdown">
-        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" 
+        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
            data-bs-toggle="dropdown" aria-expanded="false">
           <img src="images/logout.webp" alt="Profil" width="32" height="32" class="rounded-circle">
         </a>
         <ul class="dropdown-menu text-small">
           <li><a class="dropdown-item" href="#">Profil</a></li>
           <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="#" (click)="logout()">Déconnexion</a></li>
+          <li><a class="dropdown-item" routerLink="/login" routerLinkActive="active">Déconnexion</a></li>
         </ul>
       </div>
     </div>

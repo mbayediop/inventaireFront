@@ -12,12 +12,6 @@
         data-bs-target="#addEquipementModal">
         <i class="bi bi-plus-circle"></i> Ajouter un équipement
       </button>
-      <button class="btn btn-primary me-2">
-        <i class="bi bi-download"></i> Exporter
-      </button>
-      <button class="btn btn-secondary">
-        <i class="bi bi-upload"></i> Importer
-      </button>
     </div>
   </div>
 
@@ -246,9 +240,26 @@
         <form (ngSubmit)="ajouterEquipement()" #equipementForm="ngForm">
           <div class="row">
             <div class="col-md-6">
+
               <div class="mb-3">
-                <label for="service" class="form-label">Service *</label>
-                <input type="text" id="service" class="form-control" [(ngModel)]="newEquipement.service" name="service" required />
+                <label for="type" class="form-label">Service *</label>
+                <select id="type" class="form-select" [(ngModel)]="newEquipement.service" name="service" required>
+                  <option value="achat">Achat</option>
+                  <option value="comptabilite">Comptabilite</option>
+                  <option value="dg">DG</option>
+                  <option value="expansion">Expansion</option>
+                  <option value="finance">Finance</option>
+                  <option value="it">IT</option>
+                  <option value="juriste">Juriste</option>
+                  <option value="maintenance">Maintenance</option>
+                  <option value="marketingcom">Marketing & COM</option>
+                  <option value="referentiel">Referentiel</option>
+                  <option value="rh">RH</option>
+                  <option value="securitequlite">Securite & Qualite</option>
+                  <option value="supply">Supply</option>
+                  <option value="transit">Transit</option>
+                  <option value="tresorerie">Tresorerie</option>
+                </select>
               </div>
 
               <div class="mb-3">
@@ -306,7 +317,6 @@
                 <label for="type" class="form-label">Type *</label>
                 <select id="type" class="form-select" [(ngModel)]="newEquipement.type" name="type" required>
                   <option value="ordinateur">Ordinateur</option>
-                  <option value="laptop">Laptop</option>
                   <option value="imprimante">Imprimante</option>
                   <option value="pda">PDA</option>
                   <option value="caisse">Caisse</option>

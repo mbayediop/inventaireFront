@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
               private router: Router) {}
 
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post(this.apiUrl, credentials).pipe(
+    return this.http.post(`${environment.apiUrl}/users/login/`, credentials).pipe(
       tap((res: any) => {
         localStorage.setItem('access_token', res.access);
         localStorage.setItem('refresh_token', res.refresh);

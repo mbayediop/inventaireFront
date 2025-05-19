@@ -1,158 +1,159 @@
 <div class="dashboard-container">
-  <div class="main-content">
-    <div class="sidebar-container">
-      <app-sidebar></app-sidebar>
-    </div>
-    <div class="content-area">
-      <div class="container mt-4">
-        <h4 class="mb-4">Filtres par site</h4>
-        
-        <!-- Filtres -->
-        <div class="row mb-4 g-3">
-          <div class="col-md-4">
-            <select class="form-select" [(ngModel)]="selectedType" (change)="filterSites()">
-              <option value="all">Tous les types</option>
-              <option value="siege">Siège</option>
-              <option value="entrepot">Entrepot</option>
-              <option value="carrefour_market">Carrefour Market</option>
-              <option value="supeco">Supeco</option>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-search"></i></span>
-              <input type="text" class="form-control" placeholder="Rechercher..."
-              [(ngModel)]="searchTerm" (input)="filterSites()">
+    <div class="main-content">
+      <div class="sidebar-container">
+        <app-sidebar></app-sidebar>
+      </div>
+      <div class="content-area">
+        <div class="container mt-4">
+          <h4 class="mb-4">Filtre par site</h4>
+          
+          <!-- Filtres -->
+          <div class="row mb-4 g-3">
+            <div class="col-md-4">
+              <select class="form-select" [(ngModel)]="selectedType" (change)="filterSites()">
+                <option value="all">Tous les sites</option>
+                <option value="siege">Siège</option>
+                <option value="entrepot">Entrepot</option>
+                <option value="carrefour_market">Carrefour Market</option>
+                <option value="supeco">Supeco</option>
+              </select>
             </div>
-          </div>
-          <div class="col-md-4 text-end">
-            <button class="btn btn-outline-primary">
-              <i class="bi bi-arrow-clockwise"></i> Actualiser
-            </button>
-          </div>
-        </div>
-      
-        <!-- Cartes des sites -->
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-          <div class="col" *ngFor="let site of filteredSites">
-            <div class="card h-100 shadow-sm">
-              <div class="card-header" [ngClass]="{
-                'bg-warning text-dark': site.type === 'supeco',
-                'bg-danger text-dark': site.type === 'carrefour_market',
-                'bg-primary text-white': site.type === 'siege',
-                'bg-success text-white': site.type === 'entrepot'
-              }">
-                <h5 class="mb-0">
-                  <i class="bi bi-shop me-2"></i>
-                  {{ site.nom }}
-                  <span class="badge bg-secondary float-end">{{ site.type }}</span>
-                </h5>
-              </div>
-              
-              <div class="card-body">
-                <!-- Matériels avec compteurs -->
-                <h6 class="text-muted border-bottom pb-2">
-                  <i class="bi bi-pc-display me-2"></i> Equipements
-                </h6>
-                <ul class="list-group list-group-flush mb-3">
-                  <li class="list-group-item" *ngIf="hasEquipement(site, 'ordinateur')">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span>Ordinateur</span>
-                      <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.ordinateur }}</span>
-                    </div>
-                  </li>
-                  <li class="list-group-item" *ngIf="hasEquipement(site, 'laptop')">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span>Laptop</span>
-                      <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.laptop }}</span>
-                    </div>
-                  </li>
-                  <li class="list-group-item" *ngIf="hasEquipement(site, 'imprimante')">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span>Imprimante</span>
-                      <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.imprimante }}</span>
-                    </div>
-                  </li>
-                  <li class="list-group-item" *ngIf="hasEquipement(site, 'pda')">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span>PDA</span>
-                      <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.pda }}</span>
-                    </div>
-                  </li>
-                  <li class="list-group-item" *ngIf="hasEquipement(site, 'caisse')">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span>Caisse</span>
-                      <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.caisse }}</span>
-                    </div>
-                  </li>
-                  <li class="list-group-item" *ngIf="hasEquipement(site, 'ecran')">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span>Écran</span>
-                      <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.ecran }}</span>
-                    </div>
-                  </li>
-                  <li class="list-group-item" *ngIf="hasEquipement(site, 'accessoire')">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span>Accessoire</span>
-                      <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.accessoire }}</span>
-                    </div>
-                  </li>
-                </ul>
-
-                <!-- Total des équipements -->
-                <div class="text-end mt-3">
-                  <span class="badge bg-secondary">Total: {{ getTotalEquipements(site) }}</span>
-                </div>
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher..."
+                [(ngModel)]="searchTerm" (input)="filterSites()">
               </div>
             </div>
+            <div class="col-md-4 text-end">
+              <button class="btn btn-outline-primary">
+                <i class="bi bi-arrow-clockwise"></i> Actualiser
+              </button>
+            </div>
           </div>
-        </div>
-      
-        <!-- Statistiques simplifiées -->
-        <div class="row mt-5">
-          <div class="col-12">
-            <div class="card shadow-sm">
-              <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <div>
-                  <i class="bi bi-bar-chart me-2"></i> Résumé des stocks
+        
+          <!-- Cartes des sites -->
+          <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col" *ngFor="let site of filteredSites">
+              <div class="card h-100 shadow-sm">
+                <div class="card-header" [ngClass]="{
+                  'bg-warning text-dark': site.type === 'supeco',
+                  'bg-danger text-dark': site.type === 'carrefour_market',
+                  'bg-primary text-white': site.type === 'siege',
+                  'bg-success text-white': site.type === 'entrepot'
+                }">
+                  <h5 class="mb-0">
+                    <i class="bi bi-shop me-2"></i>
+                    {{ site.nom }}
+                    <span class="badge bg-secondary float-end">{{ site.type }}</span>
+                  </h5>
                 </div>
-                <div class="small">
-                  Total sites: {{ filteredSites.length }}
+                
+                <div class="card-body">
+                  <!-- Matériels avec compteurs -->
+                  <h6 class="text-muted border-bottom pb-2">
+                    <i class="bi bi-pc-display me-2"></i> Equipements
+                  </h6>
+                  <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item" *ngIf="hasEquipement(site, 'ordinateur')">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Ordinateur</span>
+                        <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.ordinateur }}</span>
+                      </div>
+                    </li>
+                    <li class="list-group-item" *ngIf="hasEquipement(site, 'laptop')">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Laptop</span>
+                        <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.laptop }}</span>
+                      </div>
+                    </li>
+                    <li class="list-group-item" *ngIf="hasEquipement(site, 'imprimante')">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Imprimante</span>
+                        <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.imprimante }}</span>
+                      </div>
+                    </li>
+                    <li class="list-group-item" *ngIf="hasEquipement(site, 'pda')">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>PDA</span>
+                        <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.pda }}</span>
+                      </div>
+                    </li>
+                    <li class="list-group-item" *ngIf="hasEquipement(site, 'caisse')">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Caisse</span>
+                        <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.caisse }}</span>
+                      </div>
+                    </li>
+                    <li class="list-group-item" *ngIf="hasEquipement(site, 'ecran')">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Écran</span>
+                        <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.ecran }}</span>
+                      </div>
+                    </li>
+                    <li class="list-group-item" *ngIf="hasEquipement(site, 'accessoire')">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <span>Accessoire</span>
+                        <span class="badge bg-primary rounded-pill">{{ site.equipementCounts.accessoire }}</span>
+                      </div>
+                    </li>
+                  </ul>
+  
+                  <!-- Total des équipements -->
+                  <div class="text-end mt-3">
+                    <span class="badge bg-secondary">Total: {{ getTotalEquipements(site) }}</span>
+                  </div>
                 </div>
               </div>
-              <div class="card-body">
-                <!-- Légende -->
-                <div class="d-flex justify-content-center gap-4 mb-4">
-                  <span class="badge bg-success p-2"><i class="bi bi-square-fill me-1"></i> Matériels</span>
-                </div>
+            </div>
+          </div>
         
-                <!-- Graphique vertical -->
-                <div class="vertical-chart">
-                  <div class="row g-3">
-                    <div class="col-md-6 col-lg-3" *ngFor="let site of filteredSites">
-                      <div class="chart-card h-100">
-                        <div class="chart-header bg-light p-3 border-bottom">
-                          <h6 class="mb-0">{{ site.nom }}</h6>
-                        </div>
-                        <div class="chart-body p-3">
-                          <div class="d-flex align-items-end gap-2" style="height: 150px;">
-                            <!-- Barre Matériels -->
-                            <div class="chart-col">
-                              <div class="chart-value text-center small mb-1">
-                                {{ getTotalEquipements(site) }}
-                              </div>
-                              <div class="chart-bar bg-success" [style.height.%]="(getTotalEquipements(site) / 100) * 100">
-                              </div>
-                              <div class="chart-label text-center small mt-1">
-                                Matériels
+          <!-- Statistiques simplifiées -->
+          <div class="row mt-5">
+            <div class="col-12">
+              <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                  <div>
+                    <i class="bi bi-bar-chart me-2"></i> Résumé des stocks
+                  </div>
+                  <div class="small">
+                    Total sites: {{ filteredSites.length }}
+                  </div>
+                </div>
+                <div class="card-body">
+                  <!-- Légende -->
+                  <div class="d-flex justify-content-center gap-4 mb-4">
+                    <span class="badge bg-success p-2"><i class="bi bi-square-fill me-1"></i> Matériels</span>
+                  </div>
+          
+                  <!-- Graphique vertical -->
+                  <div class="vertical-chart">
+                    <div class="row g-3">
+                      <div class="col-md-6 col-lg-3" *ngFor="let site of filteredSites">
+                        <div class="chart-card h-100">
+                          <div class="chart-header bg-light p-3 border-bottom">
+                            <h6 class="mb-0">{{ site.nom }}</h6>
+                          </div>
+                          <div class="chart-body p-3">
+                            <div class="d-flex align-items-end gap-2" style="height: 150px;">
+                              <!-- Barre Matériels -->
+                              <div class="chart-col">
+                                <div class="chart-value text-center small mb-1">
+                                  {{ getTotalEquipements(site) }}
+                                </div>
+                                <div class="chart-bar bg-success" [style.height.%]="(getTotalEquipements(site) / 100) * 100">
+                                </div>
+                                <div class="chart-label text-center small mt-1">
+                                  Matériels
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="chart-footer bg-light p-2 border-top text-center">
-                          <small class="text-muted">
-                            Total: <strong>{{ getTotalEquipements(site) }}</strong>
-                          </small>
+                          <div class="chart-footer bg-light p-2 border-top text-center">
+                            <small class="text-muted">
+                              Total: <strong>{{ getTotalEquipements(site) }}</strong>
+                            </small>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -165,4 +166,3 @@
       </div>
     </div>
   </div>
-</div>
