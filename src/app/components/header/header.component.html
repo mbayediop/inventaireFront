@@ -1,49 +1,26 @@
-<header class="p-3 mb-3 border-bottom">
+<header class="p-3 mb-3 border-bottom bg-white shadow-sm">
   <div class="container-fluid">
     <div class="d-flex flex-wrap align-items-center justify-content-between">
-      <!-- Logo à gauche -->
-      <a class="navbar-brand me-0" routerLink="/dashboard" routerLinkActive="active">
-        <img src="images/logo.png" alt="Wild Leaf" width="auto" height="50px">
+      
+      <!-- Logo -->
+      <a class="navbar-brand me-0" routerLink="/dashboard">
+        <img src="/images/logo.png" alt="Logo CFAO" height="50">
       </a>
 
-      <!-- Menu central -->
+      <!-- Menu de navigation -->
       <ul class="nav col-12 col-md-auto justify-content-center mb-2 mb-md-0" style="gap: 1.5rem">
-        <li>
-          <a routerLink="/dashboard" 
-             class="nav-link px-2 fw-medium hover-effect"
-             routerLinkActive="active-link">
-            DASHBOARD
-          </a>
-        </li>
-        <a routerLink="/equipements" class="nav-link px-2 fw-medium hover-effect" routerLinkActive="active-link">
-          EQUIPEMENTS
-        </a> 
-        <li>
-          <a routerLink="/consommables" 
-             class="nav-link px-2 fw-medium hover-effect"
-             routerLinkActive="active-link">
-            CONSOMMABLES
-          </a>
-        </li>
-        <li>
-          <a routerLink="/modop" 
-             class="nav-link px-2 fw-medium hover-effect"
-             routerLinkActive="active-link">
-            MODOP
-          </a>
-        </li>
+        <li><a routerLink="/dashboard" class="nav-link fw-medium" routerLinkActive="active-link">DASHBOARD</a></li>
+        <li><a routerLink="/equipements" class="nav-link fw-medium" routerLinkActive="active-link">EQUIPEMENTS</a></li>
+        <li><a routerLink="/consommables" class="nav-link fw-medium" routerLinkActive="active-link">CONSOMMABLES</a></li>
+        <li><a routerLink="/modop" class="nav-link fw-medium" routerLinkActive="active-link">MODOP</a></li>
       </ul>
-      <div class="dropdown">
-        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-           data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="images/logout.webp" alt="Profil" width="32" height="32" class="rounded-circle">
-        </a>
-        <ul class="dropdown-menu text-small">
-          <li><a class="dropdown-item" href="#">Profil</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" routerLink="/login" routerLinkActive="active">Déconnexion</a></li>
-        </ul>
+
+      <!-- Infos utilisateur -->
+      <div class="d-flex align-items-center gap-3">
+        <span class="fw-semibold">Bonjour, <strong>  {{ username | uppercase }}</strong></span>
+        <button class="btn btn-outline-danger btn-sm" (click)="logout()">Déconnexion</button>
       </div>
+
     </div>
   </div>
 </header>

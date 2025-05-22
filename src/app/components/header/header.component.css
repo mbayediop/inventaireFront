@@ -1,25 +1,60 @@
-.hover-effect {
-    transition: all 0.3s ease;
-    position: relative;
-    padding-bottom: 5px;
+/* header.component.css */
+
+header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.hover-effect:hover {
-    color: #DB8A06 !important;
-    transform: translateY(-2px);
+/* Menu centré (liens de navigation) */
+.nav .nav-link {
+    color: black;
+  transition: color 0.2s ease-in-out;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
-.hover-effect::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #DB8A06;
-    transition: width 0.3s ease;
+.nav .nav-link:hover,
+.nav .nav-link.active-link {
+  color: #d35400; /* Orange plus foncé au hover */
+  text-decoration: underline;
 }
 
-.hover-effect:hover::after {
-    width: 100%;
+/* Nom utilisateur */
+.fw-semibold {
+  font-weight: 600;
+}
+
+/* Bouton Déconnexion */
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Logo */
+img {
+  max-height: 50px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .d-flex.align-items-center.gap-3 {
+    flex-direction: column;
+  }
 }

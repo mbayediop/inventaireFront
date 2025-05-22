@@ -11,11 +11,25 @@ export class AuthService {
   constructor(private http: HttpClient,
               private router: Router) {}
 
+  getUserProfile(): Observable<any> {
+  const token = localStorage.getItem('access_token');
+  return this.http.get(`${environment.apiUrl}/users/me/`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
+
+
   login(credentials: { username: string; password: string }): Observable<any> {
     return this.http.post(`${environment.apiUrl}/users/login/`, credentials).pipe(
       tap((res: any) => {
         localStorage.setItem('access_token', res.access);
         localStorage.setItem('refresh_token', res.refresh);
+          // Appel à /me/ pour récupérer le username
+      this.getUserProfile().subscribe((user) => {
+        localStorage.setItem('username', user.message); // ou user.username si tu modifies l'API
+      });
       })
     );
   }
@@ -28,4 +42,8 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('access_token');
   }
+
+  getUsername(): string | null {
+  return localStorage.getItem('username');
+}
 }
