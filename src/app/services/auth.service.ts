@@ -6,14 +6,14 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api/users/login/'; // adapte l'URL
+  private baseUrl = environment.apiUrl
 
   constructor(private http: HttpClient,
               private router: Router) {}
 
   getUserProfile(): Observable<any> {
   const token = localStorage.getItem('access_token');
-  return this.http.get(`${environment.apiUrl}/users/me/`, {
+  return this.http.get(`${this.baseUrl}/users/me/`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
@@ -22,7 +22,7 @@ export class AuthService {
 
 
   login(credentials: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/users/login/`, credentials).pipe(
+    return this.http.post(`${this.baseUrl}/users/login/`, credentials).pipe(
       tap((res: any) => {
         localStorage.setItem('access_token', res.access);
         localStorage.setItem('refresh_token', res.refresh);
